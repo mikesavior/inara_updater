@@ -15,6 +15,6 @@ and update your inara.cz profile automatically.
 
 ## Usage
 
-Run one of the tools to create a blank config file, or copy the provided one into ~/.ed_tool/.
+Run one of the tools to create a blank config file, or copy the provided one into ~/.ed_tools/.
 Provide your username and password in the config, then run either script again. It will prompt
 you for a verification code. Check your inbox for this code. (you should only have to do this once)

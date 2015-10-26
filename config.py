@@ -7,7 +7,7 @@ from os import path
 import os
 
 class Config():
-  app_dir = path.join(path.expanduser('~'), '.ed_tool/')
+  app_dir = path.join(path.expanduser('~'), '.ed_tools/')
 
   def __init__(self):
     try:

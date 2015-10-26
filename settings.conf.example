@@ -1,0 +1,8 @@
+[ed_companion]
+username = ed_email@domain.com
+password = ed_password_goes_here
+
+[inara]
+username = inara_username_goes_here
+password = inara_password_goes_here
+

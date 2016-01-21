@@ -2,7 +2,7 @@ from ConfigParser import ConfigParser
 import os
 
 def get_config_dir():
-  return os.path.join(path.expanduser('~'), '.ed_tools/')
+  return os.path.join(os.path.expanduser('~'), '.ed_tools/')
 
 def get_settings():
   """

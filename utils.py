@@ -29,26 +29,33 @@ def _init_settings(settings, filename):
   settings.add_section('inara')
   if windows_detected():
     _settings_prompt_gui(settings)
+    easygui.msgbox("To change your settings later, edit " + filename)
   else:
     _settings_prompt_cli(settings)
-  
+    print "To change these settings later, edit " + filename
+
   with open(filename, 'wb') as f:
     settings.write(f)
 
 def _settings_prompt_gui(settings):
   data = []
-  easygui.multenterbox(
+  data = easygui.multenterbox(
     "Enter your E:D and Inara credentials. You only need to do this once.",
     "Authentication Data",
     ["Elite Username (email address)", "Elite Password",
-     "Inara Username", "Inara Password"],
-    data
+     "Inara Username", "Inara Password"]
   )
-  settings.set('ed_companion', 'username', data[0])
-  settings.set('ed_companion', 'password', data[1])
-  settings.set('inara', 'username', data[2])
-  settings.set('inara', 'password', data[3])
-  easygui.msgbox("To change your settings later, edit " + filename)
+
+  for i in range(4):
+    if data[i].strip() == '':
+      easygui.msgbox("You must provide data for all fields.")
+      _settings_prompt_gui(settings)
+      return
+  
+  settings.set('ed_companion', 'username', data[0].strip())
+  settings.set('ed_companion', 'password', data[1].strip())
+  settings.set('inara', 'username', data[2].strip())
+  settings.set('inara', 'password', data[3].strip())
 
     
 def _settings_prompt_cli(settings):
@@ -56,4 +63,3 @@ def _settings_prompt_cli(settings):
   settings.set('ed_companion', 'password', raw_input("Elite Password: "))
   settings.set('inara', 'username', raw_input("Inara Username: "))
   settings.set('inara', 'password', raw_input("Inara Password: "))
-  print "To change these settings later, edit " + filename

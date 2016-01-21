@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import easygui
 from elite_api import companion
 from elite_api.inara import InaraSession
 import utils

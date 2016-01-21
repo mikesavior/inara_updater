@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import easygui
 from edmc import companion
 from inara.inara import InaraSession
 import utils

@@ -11,7 +11,6 @@ flag_parser.add_argument('--dump', action='store_true', help="Dump raw data.")
 
 def main():
   settings = utils.get_settings()
-  session = Session()
   flags = flag_parser.parse_args()
 
   companion.login(settings.get('ed_companion', 'username'), settings.get('ed_companion', 'password'))
@@ -24,8 +23,7 @@ def main():
     print "Commander %s" % data['commander']['name']
     print "Credits: %s" % data['commander']['credits']
     print "Location: %s" % data['lastSystem']['name']
-  
-  session.close()
+
 
 if __name__ == "__main__":
   main()

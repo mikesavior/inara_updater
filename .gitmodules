@@ -1,6 +1,3 @@
 [submodule "inara"]
 	path = inara
 	url = https://github.com/annabunches/inara.py.git
-[submodule "edmc"]
-	path = edmc
-	url = https://github.com/annabunches/EDMarketConnector.git

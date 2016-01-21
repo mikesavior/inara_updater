@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from EDMarketConnector.companion import Session, VerificationRequired
+from edmc.companion import Session, VerificationRequired
 import argparse
 from pprint import pprint
 import os

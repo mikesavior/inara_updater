@@ -1,4 +1,4 @@
-# Tools and scripts
+# Tools and scripts for Elite: Dangerous
 
 This package provides a collection of scripts I have found useful for Elite: Dangerous.
 

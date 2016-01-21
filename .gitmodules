@@ -1,0 +1,3 @@
+[submodule "elite_api"]
+	path = elite_api
+	url = https://github.com/annabunches/elite_api.git

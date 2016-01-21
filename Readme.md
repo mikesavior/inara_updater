@@ -1,20 +1,39 @@
-# Command-line tools for Elite: Dangerous
+# Tools and scripts for Elite: Dangerous
 
-Currently, this package provides two simple python scripts for Elite: Dangerous.
-
-### elite_info.py
-
-elite_info fetches the user's credit balance and current location from the E:D Companion API,
-and prints this information. In the future it will be able to display additional data.
+This package provides a collection of scripts I have found useful for Elite: Dangerous.
 
 ### update_inara.py
 
 update_inara will fetch your location and credit balance from E:D,
-and update your inara.cz profile automatically.
+and update your inara.cz profile automatically. There is also a Windows binary available. (soon)
 
 
-## Usage
+### elite_info.py
 
-Run one of the tools to create a blank config file, or copy the provided one into ~/.ed_tools/.
-Provide your username and password in the config, then run either script again. It will prompt
-you for a verification code. Check your inbox for this code. (you should only have to do this once)
+elite_info fetches the user's credit balance and current location from the E:D Companion API,
+and prints this information. With --dump, it will print *everything* returned by the Companion API.
+
+
+### FreePIE
+
+This directory contains scripts used with the FreePIE software. See FreePIE/Readme.md for details.
+
+
+## Using the Python Scripts
+
+### In Linux
+
+First, make sure you have the git submodules and the required python tools:
+
+    git submodule init
+    git submodule update
+    pip install -r requirements.txt
+    pip install -r inara/requirements.txt
+
+Now, just run the script:
+
+    ./update_inara.py
+
+### In Windows
+
+Download and run update_inara.exe. (coming soon)

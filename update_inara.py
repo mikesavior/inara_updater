@@ -11,11 +11,20 @@ inara_session = InaraSession(settings.get('inara', 'username'), settings.get('in
 try:
   companion_session.login(settings.get('ed_companion', 'username'), settings.get('ed_companion', 'password'))
 except companion.VerificationRequired:
-  code = raw_input("Input Verification Code: ")
+  if utils.windows_detected():
+    code = easygui.enterbox("Input Verification Code (check your email)",
+                            "Verification Required")
+  else:
+    code = raw_input("Input Verification Code (check your email): ")
   companion_session.verify(code)
 
 data = companion_session.query()
+companion_session.close()
+
 inara_session.update_credits(data['commander']['credits'])
 inara_session.update_location(data['lastSystem']['name'])
 
-companion_session.close()
+if utils.windows_detected():
+  easygui.msgbox("Inara updated!")
+else:
+  print("Inara updated!")

@@ -1,13 +1,15 @@
 from ConfigParser import ConfigParser
-from config import config
 import os
+
+def get_config_dir():
+  return os.path.join(path.expanduser('~'), '.ed_tools/')
 
 def get_settings():
   """
   Try to read the settings from file into ConfigParser object.
   If the config file isn't found, initialize it.
   """
-  filename = os.path.join(config.app_dir, 'settings.conf')
+  filename = os.path.join(get_config_dir(), 'settings.conf')
   settings = ConfigParser()
   
   if os.path.isfile(filename):

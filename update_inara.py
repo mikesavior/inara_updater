@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import companion
+from EDMarketConnector import companion
 import inara
 import utils
 

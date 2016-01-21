@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from edmc.companion import Session, VerificationRequired
+from elite_api import companion
 import argparse
 from pprint import pprint
 import os
@@ -14,13 +14,8 @@ def main():
   session = Session()
   flags = flag_parser.parse_args()
 
-  try:
-    session.login(settings.get('ed_companion', 'username'), settings.get('ed_companion', 'password'))
-  except VerificationRequired:
-    code = raw_input("Input Verification Code: ")
-    session.verify(code)
-
-  data = session.query()
+  companion.login(settings.get('ed_companion', 'username'), settings.get('ed_companion', 'password'))
+  data = companion.get_data()
 
   # Now we have the data!
   if flags.dump:

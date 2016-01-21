@@ -27,12 +27,17 @@ First, make sure you have the git submodules and the required python tools:
 
     git submodule init
     git submodule update
+    cd elite_api
+    git submodule init
+    git submodule update
+    cd ..
     pip install -r requirements.txt
-    pip install -r inara/requirements.txt
+    pip install -r elite_api/requirements.txt
 
-Now, just run the script:
+Now, just run the scripts:
 
     ./update_inara.py
+    ./elite_info.py
 
 ### In Windows
 

@@ -6,7 +6,7 @@ import utils
 
 settings = utils.get_settings()
 companion_session = companion.Session()
-inara_session = InaraSession(settengs.get('inara', 'username'), settings.get('inara', 'password'))
+inara_session = InaraSession(settings.get('inara', 'username'), settings.get('inara', 'password'))
 
 try:
   companion_session.login(settings.get('ed_companion', 'username'), settings.get('ed_companion', 'password'))

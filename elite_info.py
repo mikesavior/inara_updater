@@ -1,7 +1,8 @@
 #!/usr/bin/python
 
-from companion import Session, VerificationRequired
+from EDMarketConnector.companion import Session, VerificationRequired
 import argparse
+from pprint import pprint
 import os
 import utils
 
@@ -23,7 +24,7 @@ def main():
 
   # Now we have the data!
   if flags.dump:
-    print data
+    pprint(data)
   else:
     print "Commander %s" % data['commander']['name']
     print "Credits: %s" % data['commander']['credits']

@@ -1,0 +1,3 @@
+[submodule "EDMarketConnector"]
+	path = EDMarketConnector
+	url = https://github.com/Marginal/EDMarketConnector.git

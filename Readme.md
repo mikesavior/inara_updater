@@ -4,8 +4,8 @@ This package provides a collection of scripts I have found useful for Elite: Dan
 
 ### update_inara.py
 
-update_inara will fetch your location and credit balance from E:D,
-and update your inara.cz profile automatically. There is also a Windows binary available. (soon)
+The most useful tool here! update_inara will fetch your location and credit balance from E:D,
+and update your inara.cz profile automatically.
 
 
 ### elite_info.py
@@ -20,6 +20,11 @@ This directory contains scripts used with the FreePIE software. See FreePIE/Read
 
 
 ## Using the Python Scripts
+
+### In Windows
+
+Download and run the latest update_inara.exe from the [releases page](https://github.com/annabunches/ed_tools/releases/latest).
+
 
 ### In Linux
 
@@ -38,7 +43,3 @@ Now, just run the scripts:
 
     ./update_inara.py
     ./elite_info.py
-
-### In Windows
-
-Download and run update_inara.exe. (coming soon)

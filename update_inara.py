@@ -1,9 +1,11 @@
 #!/usr/bin/python
 
-import easygui
 from elite_api import companion
 from elite_api.inara import InaraSession
 import utils
+
+if utils.windows_detected():
+  import easygui
 
 settings = utils.get_settings()
 inara_session = InaraSession(settings.get('inara', 'username'), settings.get('inara', 'password'))

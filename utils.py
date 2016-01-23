@@ -3,8 +3,13 @@ import os
 import easygui
 import platform
 
-def get_config_dir():
-  return os.path.join(os.path.expanduser('~'), '.ed_tools/')
+def get_config_dir(make=False):
+  if windows_detected():
+    config_suffix = os.path.join('AppData', 'Local', 'ed_tools')
+  else:
+    config_suffix = '.ed_tools'
+  
+  return os.path.join(os.path.expanduser('~'), config_suffix)
 
 def get_settings():
   """
@@ -17,6 +22,10 @@ def get_settings():
   if os.path.isfile(filename):
     settings.read(filename)
   else:
+    try:
+      os.makedirs(get_config_dir())
+    except:
+      pass
     _init_settings(settings, filename)
 
   return settings

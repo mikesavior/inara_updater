@@ -10,7 +10,7 @@ flag_parser = argparse.ArgumentParser(description="Report information about your
 flag_parser.add_argument('--dump', action='store_true', help="Dump raw data.")
 
 def main():
-  settings = utils.get_settings()
+  settings = utils.get_settings(use_gui=False)
   flags = flag_parser.parse_args()
 
   companion.login(settings.get('ed_companion', 'username'), settings.get('ed_companion', 'password'))

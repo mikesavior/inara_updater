@@ -4,14 +4,14 @@ import easygui
 import platform
 
 def get_config_dir(make=False):
-  if windows_detected():
+  if platform.system() == 'Windows':
     config_suffix = os.path.join('AppData', 'Local', 'ed_tools')
   else:
     config_suffix = '.ed_tools'
   
   return os.path.join(os.path.expanduser('~'), config_suffix)
 
-def get_settings():
+def get_settings(use_gui=True):
   """
   Try to read the settings from file into ConfigParser object.
   If the config file isn't found, initialize it.
@@ -26,25 +26,25 @@ def get_settings():
       os.makedirs(get_config_dir())
     except:
       pass
-    _init_settings(settings, filename)
+
+    settings = init_settings(use_gui)
 
   return settings
 
-def windows_detected():
-  return platform.system() == 'Windows'
-
-def _init_settings(settings, filename):
+def init_settings(gui=True):
+  settings = ConfigParser()
   settings.add_section('ed_companion')
   settings.add_section('inara')
-  if windows_detected():
+  if gui:
     _settings_prompt_gui(settings)
-    easygui.msgbox("To change your settings later, edit " + filename)
   else:
     _settings_prompt_cli(settings)
     print "To change these settings later, edit " + filename
 
-  with open(filename, 'wb') as f:
+  with open(os.path.join(get_config_dir(), 'settings.conf'), 'wb') as f:
     settings.write(f)
+
+  return settings
 
 def _settings_prompt_gui(settings):
   data = []

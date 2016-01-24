@@ -28,6 +28,7 @@ def update_inara(inara_session):
 class UpdateWindow(object):
   def __init__(self, parent, settings):
     self.parent = parent
+    self.settings = settings
     self.frame = tk.Frame(parent)
     self.frame.pack(expand=True, fill=tk.BOTH)
 
@@ -41,21 +42,32 @@ class UpdateWindow(object):
     self.update_button.grid(row=1, column=0, pady=10)
 
     config_button = tk.Button(self.frame, text="Config", height=1, width=2,
-                              command=lambda: utils.update_settings(True, parent, settings))
+                              command=self._update_settings)
     config_button.grid(row=1, column=1, sticky=tk.E+tk.S, padx=5, pady=5)
 
-    try:
-      self.session = do_logins(settings)
-    except:
-      self.update_button['state'] = tk.DISABLED
-      self.message.set("Error logging in. Double-check your config,\nthen restart the program.")
+    self._try_login()
 
   def _update_inara(self):
     self.message.set("Updating, please wait...")
     self.parent.update()
-    update_inara(self.session)
-    self.message.set("Update successful! (Last update: %s)" %
-                     datetime.now().isoformat(' ')[:16])
+    try:
+      update_inara(self.session)
+      self.message.set("Update successful! (Last update: %s)" %
+                       datetime.now().isoformat(' ')[:16])
+    except:
+      self.message.set("Error updating! Double-check your config,\nor try again later.")
+      
+  def _update_settings(self):
+    self.settings = utils.update_settings(True, self.parent, self.settings)
+    self._try_login()
+
+  def _try_login(self):
+    try:
+      self.session = do_logins(self.settings)
+      self.update_button['state'] = tk.NORMAL
+    except:
+      self.update_button['state'] = tk.DISABLED
+      self.message.set("Error logging in. Double-check your config!")
 
 
 def main():

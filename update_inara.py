@@ -6,7 +6,6 @@ from elite_api import companion
 from elite_api.inara import InaraSession
 import Tkinter as tk
 import utils
-import easygui
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument("--no-gui",
@@ -26,23 +25,24 @@ def update_inara(inara_session):
   inara_session.update_location(data['lastSystem']['name'])
 
 
-class UpdateWindow:
+class UpdateWindow(object):
   def __init__(self, parent, settings):
-    frame = tk.Frame(parent)
-    frame.pack(expand=True, fill=tk.BOTH)
+    self.parent = parent
+    self.frame = tk.Frame(parent)
+    self.frame.pack(expand=True, fill=tk.BOTH)
 
     self.message = tk.StringVar()
     self.message.set("Click Update to update!")
-    message_label = tk.Label(frame, textvariable=self.message)
-    message_label.grid(columnspan=3, padx=20, pady=20)
+    message_label = tk.Label(self.frame, textvariable=self.message)
+    message_label.grid(columnspan=2, padx=20, pady=20)
 
-    self.update_button = tk.Button(frame, text="Update", height=2, width=4,
+    self.update_button = tk.Button(self.frame, text="Update", height=2, width=4,
                                    command=self._update_inara)
-    self.update_button.grid(row=1, column=0, columnspan=2, pady=10)
+    self.update_button.grid(row=1, column=0, pady=10)
 
-    config_button = tk.Button(frame, text="Config", height=1, width=2,
-                              command=utils.init_settings)
-    config_button.grid(row=1, column=2)
+    config_button = tk.Button(self.frame, text="Config", height=1, width=2,
+                              command=lambda: utils.update_settings(True, parent, settings))
+    config_button.grid(row=1, column=1, sticky=tk.E+tk.S, padx=5, pady=5)
 
     try:
       self.session = do_logins(settings)
@@ -52,6 +52,7 @@ class UpdateWindow:
 
   def _update_inara(self):
     self.message.set("Updating, please wait...")
+    self.parent.update()
     update_inara(self.session)
     self.message.set("Update successful! (Last update: %s)" %
                      datetime.now().isoformat(' ')[:16])
@@ -60,14 +61,14 @@ class UpdateWindow:
 def main():
   args = arg_parser.parse_args()
 
-  settings = utils.get_settings(args.gui)
-
   if args.gui:
     root = tk.Tk()
     root.wm_title("Inara Updater")
+    settings = utils.get_settings(True, root)
     app = UpdateWindow(root, settings)
     root.mainloop()
   else:
+    settings = utils.get_settings(False)
     inara_session = do_logins(settings)
     update_inara(inara_session)
     print("Inara updated!")

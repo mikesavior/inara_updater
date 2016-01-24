@@ -37,11 +37,11 @@ class UpdateWindow(object):
     message_label = tk.Label(self.frame, textvariable=self.message)
     message_label.grid(columnspan=2, padx=20, pady=20)
 
-    self.update_button = tk.Button(self.frame, text="Update", height=2, width=4,
+    self.update_button = tk.Button(self.frame, text="Update",
                                    command=self._update_inara)
     self.update_button.grid(row=1, column=0, pady=10)
 
-    config_button = tk.Button(self.frame, text="Config", height=1, width=2,
+    config_button = tk.Button(self.frame, text="Config",
                               command=self._update_settings)
     config_button.grid(row=1, column=1, sticky=tk.E+tk.S, padx=5, pady=5)
 
@@ -52,7 +52,7 @@ class UpdateWindow(object):
     self.parent.update()
     try:
       update_inara(self.session)
-      self.message.set("Update successful! (Last update: %s)" %
+      self.message.set("Update successful!\n(Last update: %s)" %
                        datetime.now().isoformat(' ')[:16])
     except:
       self.message.set("Error updating! Double-check your config,\nor try again later.")
@@ -76,6 +76,7 @@ def main():
   if args.gui:
     root = tk.Tk()
     root.wm_title("Inara Updater")
+    root.minsize(200, 100)
     settings = utils.get_settings(True, root)
     app = UpdateWindow(root, settings)
     root.mainloop()

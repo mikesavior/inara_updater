@@ -19,13 +19,16 @@ class UpdateWindow(object):
     message_label = tk.Label(self.frame, textvariable=self.message)
     message_label.grid(columnspan=2, padx=20, pady=20)
 
+    self.info = InfoFrame(self.frame)
+    self.info.grid(columnspan=2)
+
     self.update_button = tk.Button(self.frame, text="Update", height=2, width=4,
                                    command=self._update_inara)
-    self.update_button.grid(row=1, column=0, pady=10)
+    self.update_button.grid(row=2, column=0, pady=10)
 
     config_button = tk.Button(self.frame, text="Config", height=1, width=2,
                               command=self._update_settings)
-    config_button.grid(row=1, column=1, sticky=tk.E+tk.S, padx=5, pady=5)
+    config_button.grid(row=2, column=1, sticky=tk.E+tk.S, padx=5, pady=5)
 
     self._try_login()
 
@@ -33,7 +36,8 @@ class UpdateWindow(object):
     self.message.set("Updating, please wait...")
     self.parent.update()
     try:
-      actions.update_inara(self.session)
+      data = actions.update_inara(self.session)
+      self.info.update_info(data)
       self.message.set("Update successful! (Last update: %s)" %
                        datetime.now().isoformat(' ')[:16])
     except:
@@ -60,42 +64,28 @@ class UpdateWindow(object):
     dialog = ConfigDialog(self.frame, settings)
 
 
-class ShipFrame(tk.Frame):
-  INSURANCE = {'0': .05, '1': .04, '2': .02}
-  
+class InfoFrame(tk.Frame):
   def __init__(self, parent, *args, **kwargs):
     tk.Frame.__init__(self, parent, *args, **kwargs)
-    self.ship_data = []
-    name_header = tk.Label(self, text="Ship Name")
-    name_header.grid()
-    rebuy_header = tk.Label(self, text="Rebuy")
-    name_header.grid(column=1)
-    value_header = tk.Label(self, text="Value")
-    name_header.grid(column=2)
 
-  def add_ship(self, data):
-    """
-    'data' should contain the following keys: name, id, rebuy, insurance, date, main, star, description, config, image.
-    Some of these are probably blank, but we need to propagate all of them to the Inara form eventually.
-    """
-    if not self._validate_data(data):
-      return False
-    label = tk.Label(self, text="%s:" % data['name'])
-    label.grid()
-    entry = tk.Entry(self, text=value)
-    entry.grid(column=1)
+    self.cmdr = self._add_row(0, "CMDR:")
+    self.system = self._add_row(1, "Location:")
+    self.credits = self._add_row(2, "Credit Balance:")
+    self.assets = self._add_row(3, "Current Assets:")
 
-    ship_value = int(data['rebuy']) / INSURANCE[data['insurance']]
-    value_label = tk.Label(self, text=str(ship_value))
-    value_label.grid(column=2)
+  def update_info(self, data):
+    self.cmdr.set(data['cmdr'])
+    self.system.set(data['location'])
+    self.credits.set(str(data['credits']))
+    self.assets.set(str(data['assets']))
 
-    data['rebuy_entry'] = entry
-    self.ship_data.append(data)
-
-  def _validate_date(self, data):
-    return all(key in data.keys() for key in
-               ('name', 'id', 'rebuy', 'insurance', 'date', 'main', 'star', 'description', 'config', 'image'))
-      
+  def _add_row(self, row, label_text):
+    label = tk.Label(self, text=label_text)
+    label.grid(row=row, column=0, sticky=tk.W)
+    value = tk.StringVar()
+    value_label = tk.Label(self, textvariable=value)
+    value_label.grid(row=row, column=1, sticky=tk.E)
+    return value
 
 
 class ConfigDialog(tkSimpleDialog.Dialog):

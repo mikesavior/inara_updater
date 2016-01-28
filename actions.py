@@ -14,5 +14,11 @@ def do_logins(settings):
 
 def update_inara(inara_session):
   data = companion.get_data()
-  inara_session.update_credits(data['commander']['credits'])
+  assets = inara_session.update_credits(data['commander']['credits'])
   inara_session.update_location(data['lastSystem']['name'])
+  return {
+    'cmdr': data['commander']['name'],
+    'location': data['lastSystem']['name'],
+    'credits': data['commander']['credits'],
+    'assets': assets,
+  }

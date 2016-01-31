@@ -26,7 +26,7 @@ def main():
     root.wm_title("Inara Updater")
     settings = utils.get_settings()
     app = gui.UpdateWindow(root, settings)
-    root.minsize(200, 100)
+    root.minsize(250, 150)
     root.mainloop()
 
   else:

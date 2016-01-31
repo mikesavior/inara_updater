@@ -18,20 +18,22 @@ class UpdateWindow(object):
     self.message = tk.StringVar()
     self.message.set("Click Update to update!")
     message_label = tk.Label(self.frame, textvariable=self.message)
-    message_label.grid(columnspan=3, padx=20, pady=20)
+    message_label.pack(fill=tk.X)
 
     self.info = InfoFrame(self.frame)
-    self.info.grid(columnspan=3)
+    self.info.pack(fill=tk.X, expand=True, pady=10)
 
-    self.update_button = tk.Button(self.frame, text="Update", command=self._update_inara)
-    self.update_button.grid(row=2, column=0, pady=10)
+    button_row = tk.Frame(self.frame)
+    button_row.pack()
+    self.update_button = tk.Button(button_row, text="Update", command=self._update_inara)
+    self.update_button.pack(side=tk.LEFT, expand=True)
 
-    self.ship_button = tk.Button(self.frame, text="Name Ship", command=self._update_ship_dialog)
-    self.ship_button.grid(row=2, column=1, sticky=tk.E+tk.S, padx=5, pady=5)
+    self.ship_button = tk.Button(button_row, text="Name Ship", command=self._update_ship_dialog)
+    self.ship_button.pack(side=tk.LEFT)
     self.ship_button['state'] = tk.DISABLED
     
-    config_button = tk.Button(self.frame, text="Config", command=self._update_settings)
-    config_button.grid(row=2, column=2, sticky=tk.E+tk.S, padx=5, pady=5)
+    config_button = tk.Button(button_row, text="Config", command=self._update_settings)
+    config_button.pack(side=tk.LEFT)
 
     self._try_login()
 
@@ -54,7 +56,7 @@ class UpdateWindow(object):
     if self.settings.has_option('ships', str(self.ship_id)):
       ship_name = self.settings.get('ships', str(self.ship_id))
     self.info.update_info(data, ship_name)
-    self.message.set("Update successful! (Last update: %s)" %
+    self.message.set("Update successful!\n(Last update: %s)" %
                      datetime.now().isoformat(' ')[:16])
     self.ship_button['state'] = tk.NORMAL # Once we have a current ship ID, we can use the ship button.
 
@@ -81,11 +83,11 @@ class InfoFrame(tk.Frame):
   def __init__(self, parent, *args, **kwargs):
     tk.Frame.__init__(self, parent, *args, **kwargs)
 
-    self.cmdr = self._add_row(0, "CMDR:")
-    self.ship = self._add_row(1, "Current Ship:")
-    self.system = self._add_row(2, "Location:")
-    self.credits = self._add_row(3, "Credit Balance:")
-    self.assets = self._add_row(4, "Current Assets:")
+    self.cmdr = self._add_row("CMDR:")
+    self.ship = self._add_row("Current Ship:")
+    self.system = self._add_row("Location:")
+    self.credits = self._add_row("Credit Balance:")
+    self.assets = self._add_row("Current Assets:")
 
   def update_info(self, data, ship_name):
     self.cmdr.set(data['cmdr'])
@@ -94,12 +96,14 @@ class InfoFrame(tk.Frame):
     self.credits.set(str(data['credits']))
     self.assets.set(str(data['assets']))
 
-  def _add_row(self, row, label_text):
-    label = tk.Label(self, text=label_text)
-    label.grid(row=row, column=0, sticky=tk.W)
+  def _add_row(self, label_text):
+    row = tk.Frame(self)
+    row.pack(expand=True, fill=tk.X)
+    label = tk.Label(row, text=label_text)
+    label.pack(side=tk.LEFT, anchor=tk.W)
     value = tk.StringVar()
-    value_label = tk.Label(self, textvariable=value)
-    value_label.grid(row=row, column=1, sticky=tk.E)
+    value_label = tk.Label(row, textvariable=value)
+    value_label.pack(side=tk.RIGHT, anchor=tk.E)
     return value
 
 

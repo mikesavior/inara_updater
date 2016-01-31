@@ -21,4 +21,5 @@ def update_inara(inara_session):
     'location': data['lastSystem']['name'],
     'credits': data['commander']['credits'],
     'assets': assets,
+    'ship_id': data['ship']['id'],
   }

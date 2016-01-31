@@ -28,6 +28,14 @@ def get_settings(use_gui=True, parent=None):
       pass
     return None
 
+def settings_update_ship(settings, ship_id, ship_name):
+  # We include this check for backwards-compatibility.
+  if not settings.has_section('ships'):
+    settings.add_section('ships')
+
+  settings.set('ships', str(ship_id), ship_name)
+  write_settings(settings)
+
 def update_settings(config_func, settings=None):
   """
   This function will initialize settings if it is None, call the passed function
@@ -36,12 +44,16 @@ def update_settings(config_func, settings=None):
   """
   if settings is None:
     settings = ConfigParser()
-    settings.add_section('ed_companion')
-    settings.add_section('inara')
+
+  for section in ('ed_companion', 'inara', 'ships'):
+    if not settings.has_section(section):
+      settings.add_section(section)
 
   config_func(settings)
-    
-  with open(os.path.join(get_config_dir(), 'settings.conf'), 'wb') as f:
-    settings.write(f)
+  write_settings(settings)
 
   return settings
+
+def write_settings(settings):
+  with open(os.path.join(get_config_dir(), 'settings.conf'), 'wb') as f:
+    settings.write(f)

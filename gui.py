@@ -167,7 +167,7 @@ class ShipDialog(tkSimpleDialog.Dialog):
     if self.settings.has_option('ships', str(self.ship_id)):
       ship_name = self.settings.get('ships', str(self.ship_id))
         
-    label = tk.Label(parent, text="Enter your ship's name. This must match what is entered in Inara.")
+    label = tk.Label(parent, text="Enter your ship's name.\nThis should match what is entered in Inara.\n(Note: This feature doesn't do much yet)")
     label.pack()
     self.entry = tk.Entry(parent, width=30)
     self.entry.insert(0, ship_name)

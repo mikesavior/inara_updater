@@ -4,6 +4,7 @@ import Tkinter as tk
 import tkSimpleDialog, tkMessageBox
 import utils
 
+
 class UpdateWindow(object):
   def __init__(self, parent, settings):
     self.ship_id = None
@@ -93,8 +94,8 @@ class InfoFrame(tk.Frame):
     self.cmdr.set(data['cmdr'])
     self.ship.set(ship_name)
     self.system.set(data['location'])
-    self.credits.set(str(data['credits']))
-    self.assets.set(str(data['assets']))
+    self.credits.set('{:,}'.format(data['credits']))
+    self.assets.set('{:,}'.format(data['assets']))
 
   def _add_row(self, label_text):
     row = tk.Frame(self)
